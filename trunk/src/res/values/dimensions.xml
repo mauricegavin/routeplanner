@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item type="integer" format="dimension" name="titleFontSize">16pt</item>
+    <item type="integer" format="dimension" name="menuItemFontSize">16pt</item>
+    <item type="integer" format="dimension" name="defaultFontSize">6pt</item>
+    <item type="integer" format="dimension" name="spacing">3pt</item>
+    <dimen name="image_padding">10px</dimen>
+
+</resources>
