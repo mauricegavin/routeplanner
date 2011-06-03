@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">Hello Tyndall, this is my Cycling Route Planner!</string>
+    <string name="app_name">Magical Route Planner</string>
+    
+    <string name="version">Version 0.0.01</string>
+    <string name="author">Maurice Gavin</string>
+    
+    <string name="menuTitle">Main Menu</string>
+    <string name="menuText1">Personal Info</string>
+    <string name="menu_item_settings">Settings</string>
+    <string name="menu_item_help">Help</string>
+	<string name="menu_item_about">About</string>
+    
+</resources>
