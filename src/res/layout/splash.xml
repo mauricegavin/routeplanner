@@ -13,14 +13,13 @@
     			android:textSize="@integer/titleFontSize" 
     			android:gravity="center">
     			</TextView>
-    <ImageView 	android:src="@drawable/splash" 
+    <ImageView 	android:src="@drawable/logo" 
     			android:layout_width="fill_parent" 
     			android:layout_height="wrap_content" 
     			android:id="@+id/splashImage" 
     			android:paddingBottom="@dimen/image_padding" 
     			android:paddingTop="@dimen/image_padding" 
-    			android:layout_gravity="fill"
-    			android:scaleType="fitCenter">
+    			android:layout_gravity="fill">
     			</ImageView>
     <TextView 	android:id="@+id/version" 
     			android:layout_height="wrap_content" 

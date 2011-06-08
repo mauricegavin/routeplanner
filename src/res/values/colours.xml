@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
-    <color name="titleColour">#C4CA1D</color>
-    <color name="menuItemColour">#C4CA1D</color>
-    <color name="defaultTextColour">#D5DCDF</color>
+    <color name="titleColour">#1A0202</color>
+    <color name="menuItemColour">#1A0202</color>
+    <color name="defaultTextColour">#1A0202</color>
 </resources>
