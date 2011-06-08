@@ -10,6 +10,7 @@ import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.widget.TextView;
 
@@ -21,9 +22,12 @@ public class HelpActivity extends DefaultActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.help);
 		
+		// Set GUI parameters
+		TextView helpText = (TextView)findViewById(R.id.TextView_helpText); 
+		helpText.setMovementMethod(new ScrollingMovementMethod()); 
+		
+		// Set the text to the help documentation stored in help.txt
 		InputStream in = getResources().openRawResource(R.raw.help);
-
-		TextView helpText = (TextView) findViewById(R.id.TextView_helpText);
 		String stringFile = inputStreamToString(in);
 		helpText.setText(stringFile);
 		
