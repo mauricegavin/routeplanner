@@ -1,5 +1,7 @@
-package ie.clarity.cyclingplanner;
+package ie.clarity.cyclingplanner.View;
 
+import ie.clarity.cyclingplanner.DefaultActivity;
+import ie.clarity.cyclingplanner.R;
 import java.util.Date;
 
 import android.content.Intent;
@@ -45,7 +47,7 @@ public class SplashActivity extends DefaultActivity {
 		fade_in_later.setAnimationListener(new AnimationListener() {
 			public void onAnimationEnd(Animation animation)
 			{	
-				startActivity(new Intent(SplashActivity.this, MenuActivity.class));
+				startActivity(new Intent(SplashActivity.this, MainActivity.class));
 				SplashActivity.this.finish();
 			}
 			@Override

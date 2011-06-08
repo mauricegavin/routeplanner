@@ -1,5 +1,6 @@
 package ie.clarity.cyclingplanner;
 
+import ie.clarity.cyclingplanner.View.HelpActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -57,8 +58,7 @@ public class MenuActivity extends DefaultActivity
 		return true;
 	}
 	
-	
-	class menuItemListener implements OnItemClickListener
+	public class menuItemListener implements OnItemClickListener
 	{
 		public menuItemListener() {
 		}

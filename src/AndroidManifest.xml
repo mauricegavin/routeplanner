@@ -10,8 +10,7 @@
 
 <application android:label="@string/app_name" android:debuggable="true" android:icon="@drawable/logo">
         
-        <activity 
-        	android:name="SplashActivity">
+        <activity android:name=".View.SplashActivity">
         	<intent-filter>	<!-- The following 2 intents make the SplashActivity the launch Activity -->
                 <action 	android:name="android.intent.action.MAIN" />
                 <category 	android:name="android.intent.category.LAUNCHER" />
@@ -21,9 +20,10 @@
         
         <activity android:name="MenuActivity"></activity>
         
-        <activity android:name="HelpActivity"></activity>
+        <activity android:name=".View.HelpActivity"></activity>
         
         <activity android:name="SettingsActivity"></activity>
+        <activity android:name=".View.MainActivity"></activity>
 
     </application>
 
