@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout 
+	xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/background" 
+    android:scrollbars="vertical" 
+    android:focusableInTouchMode="true">
+    <RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:id="@+id/relativeLayout">
+        <GridView android:layout_width="wrap_content" android:id="@+id/statsGrid" android:layout_height="wrap_content"></GridView>
+        <ImageView android:layout_height="wrap_content" android:src="@drawable/logo" android:id="@+id/map" android:layout_width="fill_parent" android:padding="@dimen/image_padding"></ImageView>
+        <GridView android:layout_width="wrap_content" android:id="@+id/bottomGrid" android:layout_height="wrap_content"></GridView>
+    </RelativeLayout>
+	
+</LinearLayout>

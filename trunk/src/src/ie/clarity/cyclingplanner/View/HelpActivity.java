@@ -1,13 +1,14 @@
-package ie.clarity.cyclingplanner;
+package ie.clarity.cyclingplanner.View;
+
+import ie.clarity.cyclingplanner.DefaultActivity;
+import ie.clarity.cyclingplanner.R;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
-import java.io.Writer;
 
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
@@ -40,7 +41,6 @@ public class HelpActivity extends DefaultActivity {
   * Reader return -1 which means there's no more data to
   * read. We use the StringWriter class to produce the string.
   */
-
 
 	private String inputStreamToString(InputStream in)
 	{		
