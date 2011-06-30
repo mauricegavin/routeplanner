@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" 
+    android:orientation="vertical" 
+    android:gravity="center" 
+    android:background="@drawable/background" android:padding="@dimen/image_padding" android:id="@+id/FinishStatsScreen">
+    <ScrollView android:layout_width="fill_parent" android:id="@+id/scrollView1" android:layout_height="fill_parent">
+        <TableLayout android:layout_width="fill_parent" android:id="@+id/tableLayout1" android:layout_height="fill_parent">
+            <LinearLayout android:layout_width="wrap_content" android:id="@+id/linearLayout1" android:layout_height="wrap_content">
+                <TextView android:textColor="@color/titleColour" android:gravity="center" android:id="@+id/finish_stats_title" android:layout_width="fill_parent" android:layout_height="wrap_content" android:textSize="@integer/smallTitle" android:text="@string/finish_stats"></TextView>
+            </LinearLayout>
+            <TableRow android:layout_width="fill_parent" android:layout_height="wrap_content" android:id="@+id/tableRow1">
+                <TextView android:layout_width="wrap_content" android:textColor="@color/defaultTextColour" android:layout_height="wrap_content" android:id="@+id/text_timeelapsed" android:textSize="@integer/smallBody" android:text="@string/finish_stats_time" android:padding="@dimen/simple_padding"></TextView>
+                <TextView android:layout_width="wrap_content" android:textColor="@color/defaultTextColour" android:layout_height="wrap_content" android:paddingLeft="@dimen/simple_padding" android:id="@+id/value_timeelapsed" android:textSize="@integer/smallBody" android:padding="@dimen/simple_padding" android:text="@string/finish_stats_time_val"></TextView>
+            </TableRow>
+            <TableRow android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/tableRow2">
+                <TextView android:layout_width="wrap_content" android:textColor="@color/defaultTextColour" android:layout_height="wrap_content" android:id="@+id/text_distance" android:textSize="@integer/smallBody" android:text="@string/finish_stats_distance" android:padding="@dimen/simple_padding"></TextView>
+                <TextView android:layout_width="wrap_content" android:textColor="@color/defaultTextColour" android:layout_height="wrap_content" android:paddingLeft="@dimen/simple_padding" android:id="@+id/value_distance" android:textSize="@integer/smallBody" android:padding="@dimen/simple_padding" android:text="@string/finish_stats_distance_val"></TextView>
+            </TableRow>
+            <TableRow android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/tableRow3">
+                <TextView android:layout_width="wrap_content" android:textColor="@color/defaultTextColour" android:layout_height="wrap_content" android:id="@+id/text_speed" android:textSize="@integer/smallBody" android:text="@string/finish_stats_avg_speed" android:padding="@dimen/simple_padding"></TextView>
+                <TextView android:layout_width="wrap_content" android:textColor="@color/defaultTextColour" android:layout_height="wrap_content" android:paddingLeft="@dimen/simple_padding" android:id="@+id/value_speed" android:textSize="@integer/smallBody" android:text="@string/finish_stats_avg_speed_val" android:padding="@dimen/simple_padding"></TextView>
+            </TableRow>
+            <TableRow android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/TableRow05">
+                <TextView android:layout_width="wrap_content" android:textColor="@color/defaultTextColour" android:layout_height="wrap_content" android:textSize="@integer/smallBody" android:padding="@dimen/simple_padding" android:text="@string/finish_stats_max_speed" android:id="@+id/text_maxspeed"></TextView>
+                <TextView android:layout_width="wrap_content" android:textColor="@color/defaultTextColour" android:layout_height="wrap_content" android:paddingLeft="@dimen/simple_padding" android:textSize="@integer/smallBody" android:padding="@dimen/simple_padding" android:text="@string/finish_stats_max_speed_val" android:id="@+id/value_maxspeed"></TextView>
+            </TableRow>
+            <TableRow android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/TableRow04">
+                <TextView android:layout_width="wrap_content" android:textColor="@color/defaultTextColour" android:layout_height="wrap_content" android:textSize="@integer/smallBody" android:padding="@dimen/simple_padding" android:text="@string/finish_stats_avg_pace" android:id="@+id/text_pace"></TextView>
+                <TextView android:layout_width="wrap_content" android:textColor="@color/defaultTextColour" android:layout_height="wrap_content" android:paddingLeft="@dimen/simple_padding" android:textSize="@integer/smallBody" android:padding="@dimen/simple_padding" android:text="@string/finish_stats_avg_pace_val" android:id="@+id/value_pace"></TextView>
+            </TableRow>
+            <TableRow android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/TableRow03">
+                <TextView android:layout_width="wrap_content" android:textColor="@color/defaultTextColour" android:layout_height="wrap_content" android:textSize="@integer/smallBody" android:padding="@dimen/simple_padding" android:text="@string/finish_stats_max_pace" android:id="@+id/text_maxpace"></TextView>
+                <TextView android:layout_width="wrap_content" android:textColor="@color/defaultTextColour" android:layout_height="wrap_content" android:paddingLeft="@dimen/simple_padding" android:textSize="@integer/smallBody" android:padding="@dimen/simple_padding" android:text="@string/finish_stats_max_pace_val" android:id="@+id/value_maxpace"></TextView>
+            </TableRow>
+            <TableRow android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/TableRow02">
+                <TextView android:layout_width="wrap_content" android:textColor="@color/defaultTextColour" android:layout_height="wrap_content" android:textSize="@integer/smallBody" android:padding="@dimen/simple_padding" android:text="@string/finish_stats_calories" android:id="@+id/text_calories"></TextView>
+                <TextView android:layout_width="wrap_content" android:textColor="@color/defaultTextColour" android:layout_height="wrap_content" android:paddingLeft="@dimen/simple_padding" android:textSize="@integer/smallBody" android:padding="@dimen/simple_padding" android:text="@string/finish_stats_calories_val" android:id="@+id/value_calories"></TextView>
+            </TableRow>
+            <LinearLayout android:id="@+id/linearLayout2" android:layout_width="wrap_content" android:layout_height="wrap_content">
+                <Button android:layout_width="wrap_content" android:text="@string/finish_stats_finish_button" android:layout_height="wrap_content" android:layout_weight="1" android:id="@+id/finish_stats_finishButton"></Button>
+            </LinearLayout>
+        </TableLayout>
+    </ScrollView>
+	
+</LinearLayout>

@@ -18,8 +18,7 @@
     			android:layout_height="wrap_content" 
     			android:id="@+id/splashImage" 
     			android:paddingBottom="@dimen/image_padding" 
-    			android:paddingTop="@dimen/image_padding" 
-    			android:layout_gravity="fill">
+    			android:paddingTop="@dimen/image_padding">
     			</ImageView>
     <TextView 	android:id="@+id/version" 
     			android:layout_height="wrap_content" 

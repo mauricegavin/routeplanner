@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <item type="integer" format="dimension" name="titleFontSize">16pt</item>
-    <item type="integer" format="dimension" name="menuItemFontSize">16pt</item>
+    <item type="integer" format="dimension" name="secondaryFontSize">12pt</item>
     <item type="integer" format="dimension" name="defaultFontSize">6pt</item>
     <item type="integer" format="dimension" name="spacing">3pt</item>
+    <item type="integer" format="dimension" name="smallTitle">12pt</item>
+    <item type="integer" format="dimension" name="smallSecondary">10pt</item>
+    <item type="integer" format="dimension" name="smallBody">8pt</item>
+    <item type="integer" format="dimension" name="tinyBody">6pt</item>
     <dimen name="image_padding">10px</dimen>
     <dimen name="text_padding">20px</dimen>
+    <dimen name="simple_padding">5px</dimen>
 
 </resources>

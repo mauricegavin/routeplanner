@@ -2,15 +2,17 @@
 
 <manifest 	xmlns:android="http://schemas.android.com/apk/res/android"
       		package="ie.clarity.cyclingplanner"
-      		android:versionCode="1" 
-      		android:versionName="0.0.01">
+      		android:versionCode="1" android:versionName="@string/version">
     
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"></uses-permission>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"></uses-permission>
+    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
 
 <application android:label="@string/app_name" android:debuggable="true" android:icon="@drawable/logo">
         
-        <activity android:name=".View.SplashActivity">
+        <uses-library android:name="com.google.android.maps" />
+        
+        <activity android:name=".View.SplashActivity" android:screenOrientation="portrait">
         	<intent-filter>	<!-- The following 2 intents make the SplashActivity the launch Activity -->
                 <action 	android:name="android.intent.action.MAIN" />
                 <category 	android:name="android.intent.category.LAUNCHER" />
@@ -18,12 +20,16 @@
         
         </activity>
         
-        <activity android:name="MenuActivity"></activity>
+        <activity android:name="MenuActivity" android:screenOrientation="behind"></activity>
         
         <activity android:name=".View.HelpActivity"></activity>
         
         <activity android:name="SettingsActivity"></activity>
-        <activity android:name=".View.MainActivity"></activity>
+        <activity android:name=".View.MainActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name=".View.PlanRouteActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name=".View.FinishStatsActivity"></activity>
+        <activity android:name=".View.FinishQuitActivity"></activity>
+        <service android:name=".Model.RecordingService"></service>
 
     </application>
 

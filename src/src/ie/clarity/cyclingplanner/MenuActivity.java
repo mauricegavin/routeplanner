@@ -1,6 +1,8 @@
 package ie.clarity.cyclingplanner;
 
 import ie.clarity.cyclingplanner.View.HelpActivity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -25,9 +27,14 @@ public class MenuActivity extends DefaultActivity
 		// Take the resource
 		ListView menuList = (ListView) findViewById(R.id.ListView_menu);
 		// Take the string resources to be used
-		String[] items = { 	getResources().getString(R.string.menuText1),	// Personal Info
+		String[] items = { 	getResources().getString(R.string.menu_item_upload),	// Upload Now
+							getResources().getString(R.string.menu_item_statistics),//Statistics
+							getResources().getString(R.string.menu_item_history),	// History
+							getResources().getString(R.string.menu_item_map),		// View Map
 							getResources().getString(R.string.menu_item_settings),	// Settings
-							getResources().getString(R.string.menu_item_help)};	// Help 
+							getResources().getString(R.string.menu_item_feedback),	// Give Feedback
+							getResources().getString(R.string.menu_item_help),		// Help
+							getResources().getString(R.string.menu_item_about)};	// About 
 		// An Adapter is needed to put the contents into the menuList
 		ArrayAdapter<String> adapt = new ArrayAdapter<String>(this, R.layout.menu_item, items);
 		menuList.setAdapter(adapt);
@@ -46,18 +53,50 @@ public class MenuActivity extends DefaultActivity
 		// Define what the Intent of the menu options - i.e. What do they do?
 		menu.findItem(R.id.settings_menu_item).setIntent(new Intent(this, SettingsActivity.class));
 		menu.findItem(R.id.help_menu_item).setIntent(new Intent(this, HelpActivity.class));
-		//TODO Need an intent to Launch an About Dialogue
+		//menu.findItem(R.id.about_menu_item).setIntent(new Intent(this, HelpActivity.class));
 		
 		return true;
 	}
 	
 	public boolean onOptionsItemSelected(MenuItem item)
 	{
-		super.onOptionsItemSelected(item);
-		startActivity(item.getIntent());
-		return true;
+		switch (item.getItemId())
+		{
+	    case R.id.settings_menu_item:
+	    	startActivity(item.getIntent());
+	        return true;
+	    case R.id.help_menu_item:
+			startActivity(item.getIntent());
+	        return true;
+	    case R.id.about_menu_item:
+			showAbout();
+	        return true;
+	    default:
+	        return super.onOptionsItemSelected(item);
+	    }
+
 	}
 	
+	private void showAbout()
+	{	
+		// Show About Dialogue
+		//TODO Place holder dialogue
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle("About Cycling Route Planner")
+			   .setMessage("Created by Maurice Gavin\n" +
+			   		"Copyright 2011")
+		       .setCancelable(false)
+		       .setPositiveButton("OK", new DialogInterface.OnClickListener() 
+		       {
+		           public void onClick(DialogInterface dialog, int id) {
+		        	   dialog.cancel();
+		           }
+		       });
+		AlertDialog alert = builder.create();
+		alert.show();
+		
+	}
+
 	public class menuItemListener implements OnItemClickListener
 	{
 		public menuItemListener() {
@@ -77,11 +116,11 @@ public class MenuActivity extends DefaultActivity
 			String stringText = textView.getText().toString();	// Take the text from the textView
 		
 			// Determine which option has been selected
-			if (stringText.equalsIgnoreCase(getResources().getString(R.string.menuText1))) 
+			if (stringText.equalsIgnoreCase(getResources().getString(R.string.menu_item_upload))) 
 			{
-				// Launch the Personal Info Activity
+				// Launch the Upload Activity
 				//startActivity(new Intent(MenuActivity.this, SettingsActivity.class));
-			} 
+			}
 			else if (stringText.equalsIgnoreCase(getResources().getString(R.string.menu_item_settings))) 
 			{
 				// Launch the Settings Activity
@@ -91,6 +130,10 @@ public class MenuActivity extends DefaultActivity
 			{
 				// Launch the Help Activity
 				startActivity(new Intent(MenuActivity.this, HelpActivity.class));
+			}
+			else if (stringText.equalsIgnoreCase(getResources().getString(R.string.menu_item_about)))
+			{
+				// Show About Dialogue - handled by showAbout()				
 			}
 		}
 			
