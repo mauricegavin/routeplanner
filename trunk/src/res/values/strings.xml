@@ -6,10 +6,73 @@
     <string name="version">Version 0.0.01</string>
     <string name="author">Maurice Gavin</string>
     
-    <string name="menuTitle">Main Menu</string>
-    <string name="menuText1">Personal Info</string>
+    <string name="menu_title">Menu</string>
+    <string name="menu_item_upload">Upload Now</string>
+    <string name="menu_item_statistics">Statistics</string>
+    <string name="menu_item_history">History</string>
+    <string name="menu_item_map">View Map</string>
     <string name="menu_item_settings">Settings</string>
+    <string name="menu_item_feedback">Give Feedback</string>
     <string name="menu_item_help">Help</string>
 	<string name="menu_item_about">About</string>
     
+    <string name="plan_route">Plan Route</string>
+    <string name="start_point_button">Set Start Point</string>
+    <string name="end_point_button">Set End Point</string>
+    <string name="reason_for_trip_title">Reason for Trip</string>
+	<string name="type_of_trip_title">Desired Route Type</string>
+	<string name="calculate">Start Recording</string>
+	<string name="stats_timeelapsed">Time Elapsed:</string>
+	<string name="stats_timeelapsed_val">xx:xx:xx</string>
+	<string name="stats_distance">Distance:</string>
+	<string name="stats_val_distance">xx km</string>
+	<string name="stats_val_speed">xx km/hr</string>
+	<string name="stats_speed">Speed:</string>
+	<string name="stats_pace">Pace:</string>
+	<string name="stats_val_pace">xx min/km</string>
+	
+	<string name="reason_prompt">Select the reason for your trip</string>
+    <string-array name="reason_array">
+        <item>Work/School</item>
+        <item>Home</item>
+        <item>Recreation</item>
+        <item>Sport</item>
+        <item>Shopping</item>
+        <item>Other</item>
+    </string-array>
+
+	<string name="type_prompt">What type of route is it?</string>
+    <string-array name="type_array">
+        <item>Shortest</item>
+        <item>Safest</item>
+        <item>Quietest</item>
+        <item>Least steep</item>
+        <item>Scenic</item>
+        <item>Fitness</item>
+    </string-array>
+    
+    <string name="finish_stats">Final Statistics</string>
+    
+    <string name="finish_stats_time">Time Taken</string>
+    <string name="finish_stats_distance">Distance Travelled</string>
+    <string name="finish_stats_avg_speed">Average Speed</string>
+	<string name="finish_stats_max_speed">Maximum Speed</string>
+	<string name="finish_stats_avg_pace">Average Pace</string>
+	<string name="finish_stats_max_pace">Maximum Pace</string>
+	<string name="finish_stats_calories">Calories Burned</string>
+	
+	<string name="finish_stats_time_val">xx:xx:xx</string>
+    <string name="finish_stats_distance_val">0 m</string>
+    <string name="finish_stats_avg_speed_val">0 km/hr</string>
+	<string name="finish_stats_max_speed_val">0 km/hr</string>
+	<string name="finish_stats_avg_pace_val">0 min/km</string>
+	<string name="finish_stats_max_pace_val">0 min/km</string>
+	<string name="finish_stats_calories_val">0 cal</string>
+	
+	<string name="finish_stats_finish_button">Finish</string>
+	
+	<string name="finish_saving_upload">Upload Now</string>
+	<string name="finish_saving_save_and_quit">Save and Quit</string>
+	<string name="finish_saving_quit_without_saving">Quit without Saving</string>
+	
 </resources>

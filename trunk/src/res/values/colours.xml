@@ -3,4 +3,6 @@
     <color name="titleColour">#1A0202</color>
     <color name="menuItemColour">#1A0202</color>
     <color name="defaultTextColour">#1A0202</color>
+    <color name="alternativeTextColour">#FFFFFF</color>
+    <color name="backgroundColour">#1A0202</color>
 </resources>

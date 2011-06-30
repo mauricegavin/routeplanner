@@ -1,17 +1,41 @@
 package ie.clarity.cyclingplanner;
 
+import ie.clarity.cyclingplanner.Controller.GPSController;
+import ie.clarity.cyclingplanner.Controller.RecordingController;
+import ie.clarity.cyclingplanner.Model.History;
+import ie.clarity.cyclingplanner.Model.PersonalisedRoute;
+import ie.clarity.cyclingplanner.Model.RecordingService;
+import ie.clarity.cyclingplanner.Model.Trip;
 import android.app.Activity;
 
 public class DefaultActivity extends Activity {
-    /** Called when the activity is first created. */
     
 	// Create logging file
 	private static final String USER_PREFERENCES = "UserPrefs";
-
+	
+	// Visibility Constants
+	public static final int VISIBLE = 0;
+	public static final int INVISIBLE = 4;
+	public static final int GONE = 8;
+	
 	public static String getUserPreferences() {
 		return USER_PREFERENCES;
 	}
-		
+	
+	public static void setTrip(Trip trip) {
+		DefaultActivity.trip = trip;
+	}
+	public static Trip getTrip() {
+		return trip;
+	}
+
+	private static Trip trip;
+	public static PersonalisedRoute personalisedRoute;
+	public static GPSController gpsCtrl;
+	public static RecordingController recordCtrl;
+	
+	public static History history;
+	
 	/*@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

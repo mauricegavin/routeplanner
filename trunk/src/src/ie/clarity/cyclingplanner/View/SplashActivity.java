@@ -2,6 +2,8 @@ package ie.clarity.cyclingplanner.View;
 
 import ie.clarity.cyclingplanner.DefaultActivity;
 import ie.clarity.cyclingplanner.R;
+import ie.clarity.cyclingplanner.Model.History;
+
 import java.util.Date;
 
 import android.content.Intent;
@@ -23,6 +25,9 @@ public class SplashActivity extends DefaultActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.splash);
 		
+		Initialisation init = new Initialisation();
+		init.run();
+		
 		// Sample code which demonstrates the use of SharedPreferences
 		SharedPreferences settings = getSharedPreferences(getUserPreferences(), MODE_PRIVATE);
 		SharedPreferences.Editor prefEditor = settings.edit();
@@ -35,10 +40,10 @@ public class SplashActivity extends DefaultActivity {
 		prefEditor.commit();
 	
 		// Apply animation to the title text
-		TextView titleText = (TextView) findViewById(R.id.appName);
+		TextView titleText = (TextView) findViewById(R.id.appName);		
 		Animation fade_in_immidiately = AnimationUtils.loadAnimation(this, R.anim.fade_in);
 		titleText.startAnimation(fade_in_immidiately);
-		
+
 		TextView versionText = (TextView) findViewById(R.id.version);
 		TextView authorText = (TextView) findViewById(R.id.author);
 		Animation fade_in_later = AnimationUtils.loadAnimation(this, R.anim.fade_in2);
@@ -47,7 +52,7 @@ public class SplashActivity extends DefaultActivity {
 		fade_in_later.setAnimationListener(new AnimationListener() {
 			public void onAnimationEnd(Animation animation)
 			{	
-				startActivity(new Intent(SplashActivity.this, MainActivity.class));
+				startActivity(new Intent(SplashActivity.this, PlanRouteActivity.class));
 				SplashActivity.this.finish();
 			}
 			@Override
@@ -60,7 +65,6 @@ public class SplashActivity extends DefaultActivity {
 		
 		versionText.startAnimation(fade_in_later);
 		authorText.startAnimation(fade_in_later);
-		
 	}
 
 	@Override
@@ -81,4 +85,14 @@ public class SplashActivity extends DefaultActivity {
 		return PREFERENCES;
 	}
 
+	// A Thread which runs initialisation tasks from the moment of launch.
+	private class Initialisation implements Runnable
+	{
+		@Override
+		public void run()
+		{
+			// Read in the History.
+			history = new History();
+		}
+	}
 }

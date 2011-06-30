@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout 
+<LinearLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="fill_parent"
@@ -8,9 +8,28 @@
     android:scrollbars="vertical" 
     android:focusableInTouchMode="true">
     <RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:id="@+id/relativeLayout">
-        <GridView android:layout_width="wrap_content" android:id="@+id/statsGrid" android:layout_height="wrap_content"></GridView>
-        <ImageView android:layout_height="wrap_content" android:src="@drawable/logo" android:id="@+id/map" android:layout_width="fill_parent" android:padding="@dimen/image_padding"></ImageView>
-        <GridView android:layout_width="wrap_content" android:id="@+id/bottomGrid" android:layout_height="wrap_content"></GridView>
+        <RelativeLayout android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/statsGrid" android:background="@color/backgroundColour">
+            <TextView android:text="@string/stats_timeelapsed" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textSize="@integer/smallSecondary" android:id="@+id/text_timeelapsed" android:paddingRight="@dimen/simple_padding" android:textColor="@color/alternativeTextColour"></TextView>
+            <TextView android:text="@string/stats_timeelapsed_val" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textSize="@integer/smallSecondary" android:id="@+id/value_timeelapsed" android:layout_toRightOf="@+id/text_timeelapsed" android:paddingLeft="@dimen/simple_padding" android:textColor="@color/alternativeTextColour"></TextView>
+            <TextView android:textSize="@integer/smallSecondary" android:paddingRight="@dimen/simple_padding" android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_below="@+id/text_timeelapsed" android:text="@string/stats_distance" android:id="@+id/text_distance" android:textColor="@color/alternativeTextColour"></TextView>
+            <TextView android:textSize="@integer/smallSecondary" android:paddingLeft="@dimen/simple_padding" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_toRightOf="@+id/text_distance" android:layout_below="@+id/value_timeelapsed" android:id="@+id/value_distance" android:textColor="@color/alternativeTextColour" android:text="@string/stats_val_distance"></TextView>
+            <TextView android:textSize="@integer/smallSecondary" android:paddingRight="@dimen/simple_padding" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_below="@+id/text_distance" android:id="@+id/text_speed" android:textColor="@color/alternativeTextColour" android:text="@string/stats_speed"></TextView>
+            <TextView android:textSize="@integer/smallSecondary" android:paddingLeft="@dimen/simple_padding" android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/value_speed" android:layout_toRightOf="@+id/text_speed" android:layout_below="@+id/value_distance" android:textColor="@color/alternativeTextColour" android:text="@string/stats_val_speed"></TextView>
+        </RelativeLayout>
+			<com.google.android.maps.MapView
+    		xmlns:android="http://schemas.android.com/apk/res/android"
+    		android:id="@+id/mapview"
+    		android:layout_width="fill_parent"
+    		android:layout_height="wrap_content"
+    		android:clickable="true"
+    		android:apiKey="0FOlkZbidlt8Z2aLAsQTHTrzXygxPne0d5tIkiQ"
+			android:layout_below="@+id/statsGrid" android:layout_above="@+id/controls"/>
+        <LinearLayout android:orientation="horizontal" android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/controls" android:layout_alignParentBottom="true">
+            <ImageButton android:background="@color/titleColour" android:src="@drawable/play" android:layout_height="wrap_content" android:layout_weight="1" android:layout_width="wrap_content" android:id="@+id/play"></ImageButton>
+            <ImageButton android:background="@color/titleColour" android:src="@drawable/pause" android:layout_height="wrap_content" android:layout_weight="1" android:layout_width="wrap_content" android:id="@+id/pause"></ImageButton>
+            <ImageButton android:background="@color/titleColour" android:src="@drawable/stop" android:layout_height="wrap_content" android:layout_weight="1" android:layout_width="wrap_content" android:id="@+id/stop"></ImageButton>
+        </LinearLayout>
     </RelativeLayout>
 	
 </LinearLayout>
+
