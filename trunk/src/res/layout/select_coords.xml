@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/background" 
+    android:scrollbars="vertical" 
+    android:focusableInTouchMode="true" android:orientation="vertical">
+    <RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:id="@+id/relativeLayout">
+			<com.google.android.maps.MapView
+    		xmlns:android="http://schemas.android.com/apk/res/android"
+    		android:layout_width="fill_parent"
+    		android:layout_height="wrap_content"
+    		android:clickable="true"
+    		android:apiKey="0FOlkZbidlt8Z2aLAsQTHTrzXygxPne0d5tIkiQ"
+			android:id="@+id/coord_mapview" android:layout_above="@+id/coord_controls"/>
+        <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_alignParentBottom="true" android:id="@+id/coord_controls" android:layout_height="75dip">
+            <ToggleButton android:layout_weight="1" android:textOff="@string/start_point_button" android:textOn="@string/start_point_button" android:layout_width="wrap_content" android:layout_height="fill_parent" android:id="@+id/coordStart"></ToggleButton>
+            <ToggleButton android:layout_weight="1" android:textOff="@string/end_point_button" android:textOn="@string/end_point_button" android:layout_height="fill_parent" android:layout_width="wrap_content" android:id="@+id/coordEnd"></ToggleButton>
+        </LinearLayout>
+    </RelativeLayout>
+	
+</LinearLayout>
+

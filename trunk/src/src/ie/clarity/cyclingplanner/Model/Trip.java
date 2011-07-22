@@ -2,6 +2,8 @@ package ie.clarity.cyclingplanner.Model;
 
 import java.util.Date;
 
+import android.util.Log;
+
 /**
  * A Trip object contains all information associated with a single journey.
  * @author Maurice Gavin
@@ -22,6 +24,7 @@ public class Trip
 	private double maxSpeed;
 	private double averagePace;		// Stored as min/km
 	private double maxPace;
+	private double caloriesBurned;
 	
 	private PersonalisedRoute personalisedRoute;
 	
@@ -41,6 +44,7 @@ public class Trip
 	void initialise()
 	{
 		setDateAtStart(new Date());
+		// Note: Start time is given its true value when the first GPS fix is received
 		setStartTime(System.currentTimeMillis());
 		setEndTime(System.currentTimeMillis());
 		setDistance(0);
@@ -75,8 +79,40 @@ public class Trip
 	public void compileTrip()
 	{
 		// Pace is time/distance
-		averagePace = (1000 * averageSpeed) / 60;
-		maxPace = (1000 * maxSpeed) /60;
+		averagePace = 60/(averageSpeed*3.6);
+		maxPace = 60/(maxSpeed*3.6);
+		
+		// Calculate Calories Burned
+		// Calories Expended [kcal] = METs x weight [kg] x Duration [hr]
+		double cycleTime = getEndTime() - getTimePaused() - getStartTime();
+		cycleTime = cycleTime/3600000; // Convert from ms to hr.
+		
+		double weight = 80; //kg //TODO Take weight from user information page when it is done.
+		
+		// METs Table
+		int METs = 0;
+		double speedInKmPerHr = averageSpeed*3.6;
+		if (speedInKmPerHr < 16){
+			METs = 4;
+		}
+		else if (speedInKmPerHr < 19.5){
+			METs = 6;
+		}
+		else if (speedInKmPerHr < 22.5){
+			METs = 8;
+		}
+		else if (speedInKmPerHr < 26){
+			METs = 10;
+		}
+		else if (speedInKmPerHr < 30.5){
+			METs = 12;
+		}
+		else if (speedInKmPerHr >= 30.5){
+			METs = 16;
+		}
+			
+		// Calculation
+		caloriesBurned = METs * weight * cycleTime;
 	}
 	
 	public void setTripId(String tripID) {
@@ -181,6 +217,14 @@ public class Trip
 
 	public double getPauseStartTime() {
 		return pauseStartTime;
+	}
+
+	public void setCaloriesBurned(double caloriesBurned) {
+		this.caloriesBurned = caloriesBurned;
+	}
+
+	public double getCaloriesBurned() {
+		return caloriesBurned;
 	}
 
 

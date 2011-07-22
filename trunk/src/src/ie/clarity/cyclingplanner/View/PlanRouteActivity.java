@@ -6,6 +6,8 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -26,6 +28,7 @@ import android.widget.Toast;
 import ie.clarity.cyclingplanner.DefaultActivity;
 import ie.clarity.cyclingplanner.MenuActivity;
 import ie.clarity.cyclingplanner.R;
+import ie.clarity.cyclingplanner.R.color;
 import ie.clarity.cyclingplanner.Controller.GPSController;
 import ie.clarity.cyclingplanner.Controller.RecordingController;
 import ie.clarity.cyclingplanner.Model.PersonalisedRoute;
@@ -35,7 +38,6 @@ import ie.clarity.cyclingplanner.Model.Trip;
 
 public class PlanRouteActivity extends MenuActivity
 {
-
 	private String reason = null;
 	private String type = null;
 	private int reasonState = GONE;
@@ -55,6 +57,14 @@ public class PlanRouteActivity extends MenuActivity
 		layout.setScrollContainer(true);
 		layout.setVerticalScrollBarEnabled(true);
 
+		// Set Coordinates buttons visibility
+		LinearLayout coordsLayout = (LinearLayout)findViewById(R.id.coordinatesLayout);
+		coordsLayout.setVisibility(VISIBLE);
+		
+		// Set Coordinates buttons properties
+		Button startPointButton = (Button)findViewById(R.id.coordsPointButton);
+		startPointButton.setOnClickListener(new CoordButtonListener());
+		
 		// Set TextFields invisible initially
 		LinearLayout reasonLayout = (LinearLayout)findViewById(R.id.reasonOtherLayout);
 		reasonLayout.setVisibility(reasonState);
@@ -71,9 +81,8 @@ public class PlanRouteActivity extends MenuActivity
 	            this, R.array.reason_array, android.R.layout.simple_spinner_item);
 	    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 	    reasonSpinner.setAdapter(adapter);
-	    // Add listeners
-	    reasonSpinner.setOnItemSelectedListener(new SpinnerItemSelectedListener());
-	    
+	    // Add listener
+	    reasonSpinner.setOnItemSelectedListener(new SpinnerItemSelectedListener(1));
 	    
 		// Setup the Type Spinner
 		Spinner typeSpinner = (Spinner)findViewById(R.id.typeSpinner);
@@ -81,6 +90,8 @@ public class PlanRouteActivity extends MenuActivity
 	            this, R.array.type_array, android.R.layout.simple_spinner_item);
 	    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 	    typeSpinner.setAdapter(adapter);
+	    // Add listener
+	    typeSpinner.setOnItemSelectedListener(new SpinnerItemSelectedListener(2));
 		
 	    // Setup the Start button
 	    Button startButton = (Button)findViewById(R.id.calculateButton);
@@ -121,37 +132,70 @@ public class PlanRouteActivity extends MenuActivity
 		return type;
 	}
 
+	
+	
+	//
+	// LISTENERS
+	//
+	
 	/**
-	 * This private class of PlanRouteActivity handles the listeners on the Reason Spinner
+	 * This listener is for the coordinate buttons.
+	 * Launches a screen to set the coordinates.
+	 * 
+	 * Mode 1: Set the Start Point
+	 */
+	private class CoordButtonListener implements OnClickListener
+	{
+		@Override
+		public void onClick(View arg0) 
+		{
+			startActivity(new Intent(PlanRouteActivity.this, SelectCoordsActivity.class));
+		}
+	}
+	
+	/**
+	 * This private class of PlanRouteActivity handles the selections on the Reason & Type Spinners
 	 * When an item is selected from the dropdown menu it is stored globally so that it can be used later.
 	 * 
 	 * @author Maurice Gavin
 	 */
 	private class SpinnerItemSelectedListener implements OnItemSelectedListener 
 	{
-
+		private int mode;	// Defines whether it is the Reason/Type Spinner
+		
+		SpinnerItemSelectedListener(int mode)
+		{
+			this.mode = mode;
+		}
+		
 	    public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) 
 	    {
 	    	String text = parent.getItemAtPosition(pos).toString();
 
-	    	LinearLayout reasonLayout = (LinearLayout)findViewById(R.id.reasonOtherLayout);
-	    		
-	    	// If the user selects Other we need to read from the text field instead
-	    	if(text.compareTo("Other") == 0) // The strings are equal, Other is selected
+	    	if (mode == 1)
 	    	{
-	    		reasonState = VISIBLE;
-	    		reasonLayout.setVisibility(reasonState);
-	    		// Read from text box later instead
-	    		setReason(null);
+		    	LinearLayout reasonLayout = (LinearLayout)findViewById(R.id.reasonOtherLayout);
+		    		
+		    	// If the user selects Other we need to read from the text field instead
+		    	if(text.compareTo("Other") == 0) // The strings are equal, Other is selected
+		    	{
+		    		reasonState = VISIBLE;
+		    		reasonLayout.setVisibility(reasonState);
+		    		// Read from text box later instead
+		    		setReason(null);
+		    	}
+		    	else
+		    	{
+		    		// Stores the reason in a string
+		    		setReason(text);
+		    		reasonState = GONE;
+		    		reasonLayout.setVisibility(reasonState);
+		    	}
 	    	}
-	    	else
+	    	else if (mode == 2)
 	    	{
-	    		// Stores the reason in a string
-	    		setReason(text);
-	    		reasonState = GONE;
-	    		reasonLayout.setVisibility(reasonState);
 	    		// Store the selected item
-	    		setReason(text);
+	    		setType(text);
 	    	}
 	    }
 
@@ -179,7 +223,6 @@ public class PlanRouteActivity extends MenuActivity
 		public void beforeTextChanged(CharSequence s, int start, int count,
 				int after) {
 			// TODO Auto-generated method stub
-			
 		}
 
 		@Override
@@ -188,7 +231,6 @@ public class PlanRouteActivity extends MenuActivity
 			// TODO Auto-generated method stub
 			
 		}
-  
 	}
 	
 	/**
@@ -230,6 +272,7 @@ public class PlanRouteActivity extends MenuActivity
 				personalisedRoute.setType(type);
 	
 				Log.i("TRIP", "Reason: " + personalisedRoute.getReason());
+				Log.i("TRIP", "Type: " + personalisedRoute.getType());
 				
 				startActivity(new Intent(PlanRouteActivity.this, MainActivity.class));
 				PlanRouteActivity.this.finish();	// Perhaps don't finish this. It is a useful screen to go back to.
@@ -248,12 +291,8 @@ public class PlanRouteActivity extends MenuActivity
 	               .setPositiveButton("GPS Settings...", new DialogInterface.OnClickListener() {
 	                   public void onClick(final DialogInterface dialog, final int id) 
 	                   {                	   
-	                       final ComponentName toLaunch = new ComponentName("com.android.settings","com.android.settings.SecuritySettings");
-	                       final Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-	                       intent.addCategory(Intent.CATEGORY_LAUNCHER);
-	                       intent.setComponent(toLaunch);
-	                       intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-	                       startActivityForResult(intent, 0);
+	                	   Intent myIntent = new Intent( Settings.ACTION_LOCATION_SOURCE_SETTINGS );
+	                	   startActivity(myIntent);
 	                   }
 	               })
 	               .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

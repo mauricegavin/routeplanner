@@ -4,9 +4,11 @@ import java.util.ArrayList;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 
 import com.google.android.maps.ItemizedOverlay;
+import com.google.android.maps.MapView;
 import com.google.android.maps.OverlayItem;
 
 public class ItemisedOverlayForMap extends ItemizedOverlay {
@@ -43,4 +45,18 @@ public class ItemisedOverlayForMap extends ItemizedOverlay {
 	  dialog.show();
 	  return true;
 	}
+
+	@Override
+    public void draw(final Canvas canvas, final MapView mapView, final boolean shadow) {
+        // Don't draw the shadow layer
+        if (!shadow) {
+            super.draw(canvas, mapView, shadow);
+        }
+    }
+	
+	public void clear()
+	{
+		overlays.clear();
+	}
 }
+

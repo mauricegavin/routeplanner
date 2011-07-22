@@ -25,9 +25,9 @@
     		android:apiKey="0FOlkZbidlt8Z2aLAsQTHTrzXygxPne0d5tIkiQ"
 			android:layout_below="@+id/statsGrid" android:layout_above="@+id/controls"/>
         <LinearLayout android:orientation="horizontal" android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/controls" android:layout_alignParentBottom="true">
-            <ImageButton android:background="@color/titleColour" android:src="@drawable/play" android:layout_height="wrap_content" android:layout_weight="1" android:layout_width="wrap_content" android:id="@+id/play"></ImageButton>
-            <ImageButton android:background="@color/titleColour" android:src="@drawable/pause" android:layout_height="wrap_content" android:layout_weight="1" android:layout_width="wrap_content" android:id="@+id/pause"></ImageButton>
-            <ImageButton android:background="@color/titleColour" android:src="@drawable/stop" android:layout_height="wrap_content" android:layout_weight="1" android:layout_width="wrap_content" android:id="@+id/stop"></ImageButton>
+            <ImageButton android:src="@drawable/play" android:layout_height="wrap_content" android:layout_weight="1" android:layout_width="wrap_content" android:id="@+id/play" android:background="@color/backgroundColour"></ImageButton>
+            <ImageButton android:src="@drawable/pause" android:layout_height="wrap_content" android:layout_weight="1" android:layout_width="wrap_content" android:id="@+id/pause" android:background="@color/backgroundColour"></ImageButton>
+            <ImageButton android:src="@drawable/stop" android:layout_height="wrap_content" android:layout_weight="1" android:layout_width="wrap_content" android:id="@+id/stop" android:background="@color/backgroundColour"></ImageButton>
         </LinearLayout>
     </RelativeLayout>
 	

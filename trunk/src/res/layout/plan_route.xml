@@ -7,26 +7,25 @@
     <TextView android:text="@string/plan_route" android:textColor="@color/titleColour" android:id="@+id/title" android:layout_height="wrap_content" android:layout_width="fill_parent" android:gravity="center" android:textSize="@integer/smallTitle"></TextView>
     <ScrollView android:layout_width="fill_parent" android:id="@+id/scrollView1" android:layout_height="wrap_content">
         <LinearLayout android:layout_width="fill_parent" android:id="@+id/linearLayout1" android:layout_height="wrap_content" android:orientation="vertical">
-            <LinearLayout android:layout_width="fill_parent" android:id="@+id/coordinatesLayout" android:layout_height="wrap_content">
-                <Button android:layout_width="wrap_content" android:layout_weight="1" android:layout_height="wrap_content" android:text="@string/start_point_button" android:id="@+id/startPointButton" android:clickable="false"></Button>
-                <Button android:layout_width="wrap_content" android:layout_weight="1" android:layout_height="wrap_content" android:text="@string/end_point_button" android:id="@+id/endPointButton" android:clickable="false"></Button>
+            <LinearLayout android:layout_width="fill_parent" android:id="@+id/coordinatesLayout" android:layout_height="wrap_content" android:layout_marginTop="@dimen/image_padding">
+                <Button android:layout_width="wrap_content" android:layout_weight="1" android:layout_height="wrap_content" android:clickable="false" android:id="@+id/coordsPointButton" android:text="@string/coord_point_button"></Button>
             </LinearLayout>
-            <RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:id="@+id/reasonLayout">
+            <RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:id="@+id/reasonLayout" android:layout_marginTop="@dimen/image_padding">
                 <TextView android:textSize="@integer/smallSecondary" android:layout_height="wrap_content" android:text="@string/reason_for_trip_title" android:layout_width="wrap_content" android:textColor="@color/defaultTextColour" android:id="@+id/reasonTitle"></TextView>
                 <Spinner android:layout_below="@+id/reasonTitle" android:layout_width="fill_parent" android:id="@+id/reasonSpinner" android:layout_height="wrap_content" android:prompt="@string/reason_prompt"></Spinner>
                 <LinearLayout android:layout_height="wrap_content" android:id="@+id/reasonOtherLayout" android:layout_below="@+id/reasonSpinner" android:layout_width="fill_parent">
                     <AutoCompleteTextView android:textSize="@integer/smallBody" android:id="@+id/reasonOtherText" android:layout_height="wrap_content" android:layout_width="fill_parent" android:text="other..."></AutoCompleteTextView>
                 </LinearLayout>
             </RelativeLayout>
-            <RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:id="@+id/typeLayout">
+            <RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:id="@+id/typeLayout" android:layout_marginTop="@dimen/image_padding">
                 <TextView android:textSize="@integer/smallSecondary" android:layout_height="wrap_content" android:text="@string/type_of_trip_title" android:layout_width="wrap_content" android:textColor="@color/defaultTextColour" android:id="@+id/typeTitle"></TextView>
                 <Spinner android:layout_below="@+id/typeTitle" android:layout_width="fill_parent" android:id="@+id/typeSpinner" android:layout_height="wrap_content" android:prompt="@string/type_prompt"></Spinner>
                 <LinearLayout android:layout_below="@+id/typeSpinner" android:layout_height="wrap_content" android:id="@+id/typeOtherLayout" android:layout_width="fill_parent">
                     <AutoCompleteTextView android:textSize="@integer/smallBody" android:id="@+id/typeOtherText" android:layout_height="wrap_content" android:layout_width="fill_parent" android:text="other..."></AutoCompleteTextView>
                 </LinearLayout>
             </RelativeLayout>
-            <LinearLayout android:layout_width="fill_parent" android:id="@+id/bottomLayout" android:layout_height="wrap_content">
-                <Button android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="@string/calculate" android:id="@+id/calculateButton"></Button>
+            <LinearLayout android:layout_width="fill_parent" android:id="@+id/bottomLayout" android:layout_height="wrap_content" android:layout_marginTop="@dimen/image_padding">
+                <Button android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="@string/calculate" android:id="@+id/calculateButton" android:height="100dip"></Button>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

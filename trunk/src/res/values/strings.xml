@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="hello">Hello Tyndall, this is my Cycling Route Planner!</string>
-    <string name="app_name">Magical Route Planner</string>
+    <string name="app_name">Róthim</string>
     
-    <string name="version">Version 0.0.01</string>
+    <string name="version">Version 0.8.12</string>
     <string name="author">Maurice Gavin</string>
     
     <string name="menu_title">Menu</string>
@@ -17,19 +17,20 @@
 	<string name="menu_item_about">About</string>
     
     <string name="plan_route">Plan Route</string>
+    <string name="coord_point_button">Set Start &amp; End Points</string>
     <string name="start_point_button">Set Start Point</string>
     <string name="end_point_button">Set End Point</string>
     <string name="reason_for_trip_title">Reason for Trip</string>
 	<string name="type_of_trip_title">Desired Route Type</string>
 	<string name="calculate">Start Recording</string>
 	<string name="stats_timeelapsed">Time Elapsed:</string>
-	<string name="stats_timeelapsed_val">xx:xx:xx</string>
+	<string name="stats_timeelapsed_val">00:00:00</string>
 	<string name="stats_distance">Distance:</string>
-	<string name="stats_val_distance">xx km</string>
-	<string name="stats_val_speed">xx km/hr</string>
+	<string name="stats_val_distance">0 km</string>
+	<string name="stats_val_speed">0 km/hr</string>
 	<string name="stats_speed">Speed:</string>
 	<string name="stats_pace">Pace:</string>
-	<string name="stats_val_pace">xx min/km</string>
+	<string name="stats_val_pace">0 hr/km</string>
 	
 	<string name="reason_prompt">Select the reason for your trip</string>
     <string-array name="reason_array">
@@ -61,7 +62,7 @@
 	<string name="finish_stats_max_pace">Maximum Pace</string>
 	<string name="finish_stats_calories">Calories Burned</string>
 	
-	<string name="finish_stats_time_val">xx:xx:xx</string>
+	<string name="finish_stats_time_val">00:00:00</string>
     <string name="finish_stats_distance_val">0 m</string>
     <string name="finish_stats_avg_speed_val">0 km/hr</string>
 	<string name="finish_stats_max_speed_val">0 km/hr</string>

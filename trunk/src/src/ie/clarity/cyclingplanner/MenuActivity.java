@@ -82,7 +82,7 @@ public class MenuActivity extends DefaultActivity
 		// Show About Dialogue
 		//TODO Place holder dialogue
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setTitle("About Cycling Route Planner")
+		builder.setTitle("About Róthim")
 			   .setMessage("Created by Maurice Gavin\n" +
 			   		"Copyright 2011")
 		       .setCancelable(false)

@@ -35,23 +35,27 @@ public class RecordingController extends DefaultActivity
 	private boolean isRecording = false;
 	
 	private float numberNodes = 0;
-	private Location lastLocation = null;
 	private float sumSpeed = 0;
 	private float sumPace = 0;
+	
+	// Use the Timer to periodically check when the last GPS fix was received.
+	protected long lastUpdate = -1;
+	protected final long MONITOR_DELAY = 3000; // The delay between checking last GPS update
+	protected Timer monitorTimer = null;
 	
 	public RecordingController(MainActivity context) 
 	{
 		this.context = context;
 		setTrip(new Trip(personalisedRoute));
-		start(this);
+		start();
 	}
 
 	/**
 	 * Start recording the trip
 	 */
-	private void start(final RecordingController refController)
-	{
-		//gpsCtrl = new GPSController();
+	private void start()
+	{		
+		final RecordingController refController = RecordingController.this;
 		
 		rService = new Intent(context, RecordingService.class);
 		context.startService(rService);
@@ -64,23 +68,26 @@ public class RecordingController extends DefaultActivity
 				
 				public void onServiceConnected(ComponentName name, IBinder service) 
 				{
-					Log.i("DEBUG", "Recording Service connected");
+					Log.i("RECORD", "Recording Service connected");
 					rs = (IRecordService) service;
 					rs.setListener(refController); // Pass in the reference to the Controller before starting the RecordingService.
 					
 					switch (rs.getState()) {
 						case RecordingService.STATE_IDLE:
-							rs.start(context);
+							rs.start(getTrip());
 							isRecording = true;
 							Log.i("RECORD", "State: "+rs.getState() + " Is Recording: " + isRecording);
+							((MainActivity)(context)).setTitle("Róthim - Recording...");
 							break;
 						case RecordingService.STATE_RECORDING:
 							isRecording = true;
 							Log.i("RECORD", "State: "+rs.getState() + " Is Recording: " + isRecording);
+							((MainActivity)(context)).setTitle("Róthim - Resumed...");
 							break;
 						case RecordingService.STATE_PAUSED:
 							isRecording = false;
 							Log.i("RECORD", "State: "+rs.getState() + " Is Recording: " + isRecording);
+							((MainActivity)(context)).setTitle("Róthim - Paused...");
 							break;
 					}
 					rs.setListener(RecordingController.this);
@@ -88,49 +95,106 @@ public class RecordingController extends DefaultActivity
 				}
 					
 			};
-		
+
 		if(context.bindService(rService, connection, BIND_AUTO_CREATE)) {
 			Log.i("GPS", "Recording Service is bound to Controller");
 		}
 		else {
 			Log.e("GPS", "Failed to bind Recording Service to Controller");
 		}
-		
-		enableUIUpdates();
-	
 	}
 	
 	/**
 	 * The update function is called by objects that the Controller is listening to.
 	 * Its called when new trip data has become available and needs to be stored.
 	 */
-	public void update(Location location)
+	public void update(Location location, Trip trip)
 	{
-		numberNodes++; 				// Increment #nodes. Needed to calculate averages.
+		// Check the location's accuracy first to decide if we will keep this point at all.
+		//if(location.getAccuracy() > 40) // Accuracy is in meters
+		//{
+		numberNodes = trip.getGeoData().getPathTaken().size();
+		if(numberNodes == 0) // If this is the very first location fix
+		{
+			trip.setStartTime(System.currentTimeMillis()); // Sets the true start time
+			trip.setEndTime(System.currentTimeMillis());
+			enableUIUpdates(); // Begin the trip timer.
+		}
+
 		// Update the distance
-		if(lastLocation != null)	// This will be true when the first co-ordinate is received.
+		if (trip.getGeoData().getMostRecentPoint() == null)
+		{
+			// Schedule updates on GPS update frequency
+			startMonitorTimer();
+		}
+		else if(trip.getGeoData().getMostRecentPoint() != null)	// This will be true when the first co-ordinate is received.
 		{
 			if(location.getSpeed() > 1)	// If speed of travel is < 1m/s ignore it. Person is probably stationary and the distance travelled would be just location error.
-				getTrip().setDistance( getTrip().getDistance() + lastLocation.distanceTo(location) ); // Add the distanceTravlled to the latest segment distance for the new total
+				trip.setDistance( trip.getDistance() + trip.getGeoData().getMostRecentPoint().distanceTo(location) ); // Add the distanceTravlled to the latest segment distance for the new total
 		}
-		Route goegraphicRoute = getTrip().getGeoData();
+		Route goegraphicRoute = trip.getGeoData();
 		goegraphicRoute.addNode(location);
 		
 		// Update average and maximum values
 		sumSpeed = sumSpeed + location.getSpeed();
-		getTrip().setAverageSpeed( sumSpeed/numberNodes );	// Calculate the new Average Speed
-		if(location.getSpeed() > getTrip().getMaxSpeed())
+		trip.setAverageSpeed( sumSpeed/numberNodes );	// Calculate the new Average Speed
+		if(location.getSpeed() > trip.getMaxSpeed())
 		{
-			getTrip().setMaxSpeed(location.getSpeed());
+			trip.setMaxSpeed(location.getSpeed());
 		}
-		
+			
 		// Update the time elapsed
-		getTrip().setEndTime(System.currentTimeMillis());
+		trip.setEndTime(System.currentTimeMillis());
+		lastUpdate = System.currentTimeMillis();
 		
-		lastLocation = location;
+		setTrip(trip);
 		
 		// Notify the MainActivity of the changes so that it can update the UI if necessary.
-		context.update(getTrip(), location);
+		context.update(trip, location);
+	}
+	
+	/**
+	 * Check when the last GPS fix was received.
+	 * If the time exceeds a certain limit inform the user
+	 * @author Maurice Gavin
+	 */
+	protected class UpdateMonitor extends TimerTask
+	{		
+		public void run()
+		{
+			if( (isRecording) && ((System.currentTimeMillis() - lastUpdate) > 6500) ) // If the time since the last update exceeds 6.5 seconds
+			{
+				Log.e("GPS", "Its been a while since the last GPS update");
+				context.showGPSMessage();
+			}
+		}
+	};
+	
+	/**
+	 * This functions schedules a timer to run which will periodically check how much time has elapsed since the last GPS Location update.
+	 */
+	public void startMonitorTimer()
+	{
+		if(monitorTimer == null) // This should stop the timer from creating duplicates while it is still running.
+		{
+			Log.i("TIMER", "Monitor Timer started/resumed.");
+			monitorTimer = new Timer();
+			monitorTimer.scheduleAtFixedRate(new UpdateMonitor(), 0, MONITOR_DELAY);
+		}
+	}
+	
+	/**
+	 * Call this function whenever you want to stop checking the time elapsed between GPS updates.
+	 * This will have the effect of stopping updates to the UI.
+	 * It disables the timer from updating but doesn't affect the GPS recording.
+	 */
+	public void cancelMonitorTimer()
+	{
+		if(monitorTimer != null) { // It is necessary to protect the below statement as the timer may not yet have been initialised. (Initialised when first GPS fix is received)
+			monitorTimer.cancel(); // Cancel looking to see when the most recent GPS fix was.
+			monitorTimer.purge(); 
+			Log.i("TIMER", "Monitor Timer cancelled.");
+		}
 	}
 	
 	/**
@@ -140,12 +204,14 @@ public class RecordingController extends DefaultActivity
 	public void resumeRecording()
 	{
 		isRecording = true;
-		rs.resume();
 		Log.i("RECORD", "Resume Recording");
 		
 		double lengthPaused = System.currentTimeMillis() - getTrip().getPauseStartTime();
 		getTrip().setTimePaused( getTrip().getTimePaused() + lengthPaused ); // Append the length of the latest pause to the total paused time
-		setListener();
+		
+		startMonitorTimer();
+		
+		setListener(); // Resumes RS
 	}
 	
 	/**
@@ -155,11 +221,22 @@ public class RecordingController extends DefaultActivity
 	public void pauseRecording()
 	{
 		isRecording = false;
-		rs.pause();
 		Log.i("RECORD", "Pause Recording");
 		
 		getTrip().setPauseStartTime(System.currentTimeMillis()); // Record the time at which the pause occurred.
-		setListener();
+		
+		cancelMonitorTimer();
+		
+		setListener(); // Pauses RS
+	}
+	
+	/**
+	 * Can be called to query whether or not the app is currently recording data.
+	 * @return The state of recording, either true or false
+	 */
+	public boolean isRecording()
+	{
+		return isRecording;
 	}
 	
 	// Need handler for callbacks to the UI thread
@@ -197,7 +274,7 @@ public class RecordingController extends DefaultActivity
 				} else {
 					rs.pause();
 				}
-				context.unbindService(connection);
+				context.unbindService(connection); // Needs to unbind service else multiple services will be bound.
 			}
 		};
 		// This should block until the onServiceConnected (above) completes, but doesn't
@@ -211,20 +288,10 @@ public class RecordingController extends DefaultActivity
 	public void finishRecording()
 	{
 		Log.i("RECORD", "Finish Recording");
-		disableUIUpdates(); // End the timer
+		cancelMonitorTimer(); // End the timer
 		rs.finish();	// Finish the Recording Service
 		//context.unbindService(connection);	// Remove the GPS Recording service
 		this.finish();	// Finish the Recording Controller
-	}
-	
-	/**
-	 * This function is called when the program is paused.
-	 * It disables the timer from updating but doesn't affect the GPS,
-	 */
-	public void disableUIUpdates()
-	{
-		timer.cancel();
-		timer.purge();
 	}
 	
 	/**
@@ -237,7 +304,6 @@ public class RecordingController extends DefaultActivity
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-            	Log.d("TIMER", "TimerTask run");
                 mHandler.post(mUpdateTimer);
             }
         }, 0, 1000);  // is run every second
@@ -245,5 +311,10 @@ public class RecordingController extends DefaultActivity
 
 	public float getNumberNodes() {
 		return numberNodes;
+	}
+	
+	public boolean getRecordingState()
+	{
+		return isRecording;
 	}
 }

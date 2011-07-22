@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class SplashActivity extends DefaultActivity {
@@ -24,6 +25,9 @@ public class SplashActivity extends DefaultActivity {
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.splash);
+		
+		Installation installation = new Installation();
+		Log.i("Launch", "Installation ID = " + installation.id(this));
 		
 		Initialisation init = new Initialisation();
 		init.run();
@@ -48,6 +52,12 @@ public class SplashActivity extends DefaultActivity {
 		TextView authorText = (TextView) findViewById(R.id.author);
 		Animation fade_in_later = AnimationUtils.loadAnimation(this, R.anim.fade_in2);
 		
+		// Apply animation to the image
+		ImageView splashImage = (ImageView) findViewById(R.id.splashImage);
+		Animation customSplash = AnimationUtils.loadAnimation(this, R.anim.custom_splash_anim);
+		
+		
+		
 		// Add listener to leave splash screen and enter menu screen
 		fade_in_later.setAnimationListener(new AnimationListener() {
 			public void onAnimationEnd(Animation animation)
@@ -65,6 +75,7 @@ public class SplashActivity extends DefaultActivity {
 		
 		versionText.startAnimation(fade_in_later);
 		authorText.startAnimation(fade_in_later);
+		splashImage.startAnimation(customSplash);
 	}
 
 	@Override
