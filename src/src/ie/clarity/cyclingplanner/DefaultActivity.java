@@ -1,5 +1,11 @@
 package ie.clarity.cyclingplanner;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.RandomAccessFile;
+import java.util.UUID;
+
 import ie.clarity.cyclingplanner.Controller.GPSController;
 import ie.clarity.cyclingplanner.Controller.RecordingController;
 import ie.clarity.cyclingplanner.Model.History;
@@ -7,6 +13,7 @@ import ie.clarity.cyclingplanner.Model.PersonalisedRoute;
 import ie.clarity.cyclingplanner.Model.RecordingService;
 import ie.clarity.cyclingplanner.Model.Trip;
 import android.app.Activity;
+import android.content.Context;
 
 public class DefaultActivity extends Activity {
     
@@ -36,6 +43,43 @@ public class DefaultActivity extends Activity {
 	
 	public static History history;
 	
+	/**
+	 * Use this function to generate a unique id for this installation.
+	 * @author Maurice Gavin
+	 */
+	public static class Installation {
+	    private static String sID = null;
+	    private static final String INSTALLATION = "INSTALLATION";
+
+	    public synchronized static String id(Context context) {
+	        if (sID == null) {  
+	            File installation = new File(context.getFilesDir(), INSTALLATION);
+	            try {
+	                if (!installation.exists())
+	                    writeInstallationFile(installation);
+	                sID = readInstallationFile(installation);
+	            } catch (Exception e) {
+	                throw new RuntimeException(e);
+	            }
+	        }
+	        return sID;
+	    }
+
+	    private static String readInstallationFile(File installation) throws IOException {
+	        RandomAccessFile f = new RandomAccessFile(installation, "r");
+	        byte[] bytes = new byte[(int) f.length()];
+	        f.readFully(bytes);
+	        f.close();
+	        return new String(bytes);
+	    }
+
+	    private static void writeInstallationFile(File installation) throws IOException {
+	        FileOutputStream out = new FileOutputStream(installation);
+	        String id = UUID.randomUUID().toString();
+	        out.write(id.getBytes());
+	        out.close();
+	    }
+	}
 	/*@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

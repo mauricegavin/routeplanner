@@ -12,7 +12,7 @@
                 <CheckBox android:checked="true" android:layout_height="wrap_content" android:id="@+id/finish_upload" android:layout_width="wrap_content" android:layout_toRightOf="@+id/finish_saving_upload"></CheckBox>
             </RelativeLayout>
             <LinearLayout android:layout_width="fill_parent" android:id="@+id/linearLayout2" android:padding="@dimen/text_padding" android:layout_height="fill_parent" android:orientation="vertical">
-                <Button android:layout_width="fill_parent" android:text="@string/finish_saving_save_and_quit" android:id="@+id/finish_save_quit" android:layout_height="wrap_content"></Button>
+                <Button android:layout_width="fill_parent" android:text="@string/finish_saving_save_and_quit" android:id="@+id/finish_save_quit" android:layout_height="100dip"></Button>
                 <Button android:layout_width="fill_parent" android:text="@string/finish_saving_quit_without_saving" android:id="@+id/finish_quit_no_save" android:layout_height="wrap_content"></Button>
             </LinearLayout>
         </LinearLayout>

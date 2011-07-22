@@ -70,7 +70,7 @@ public class FinishStatsActivity extends DefaultActivity
 		maxSpeedText.setText(String.valueOf(oneDecPointFormat.format(getTrip().getMaxSpeed()*3.6)) + " km/hr");
 		paceText.setText(String.valueOf(oneDecPointFormat.format(getTrip().getAveragePace())) + " min/km");
 		maxPaceText.setText(String.valueOf(oneDecPointFormat.format(getTrip().getMaxPace())) + " min/km");
-		//calories
+		caloriesText.setText(String.valueOf((int)(getTrip().getCaloriesBurned())) + " kcal");
 	}
 
 	private class ButtonClickedListner implements OnClickListener

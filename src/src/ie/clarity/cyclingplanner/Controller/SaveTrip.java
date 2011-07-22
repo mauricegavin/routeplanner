@@ -6,10 +6,12 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 
+import android.content.Context;
 import android.location.Location;
 import android.os.Environment;
 import android.util.Log;
 import ie.clarity.cyclingplanner.Model.Trip;
+import ie.clarity.cyclingplanner.View.FinishQuitActivity.ProgressThread;
 
 /**
  * This class saves a trip to a file on the phone's external memory
@@ -19,79 +21,43 @@ import ie.clarity.cyclingplanner.Model.Trip;
 public class SaveTrip 
 {
 	protected Trip trip = null;
+	private Context context;
 	
-	public SaveTrip(Trip trip)
+	public SaveTrip(Trip trip, Context context)
 	{
 		this.trip = trip;
-		saveTrip();
 	}
 	
-	private void saveTrip()
+	public void saveTrip()
 	{
 		File saveDir = configureDirectory();
-		String text = dataToWrite();
-		writeToFile(saveDir, text);
 		
-		
-		
-	}
-
-	private String dataToWrite() 
-	{
-		// Formatting
-	    final SimpleDateFormat sdf = new SimpleDateFormat("H:mm:ss");
-	    DecimalFormat decimalFormat = new DecimalFormat("0.00");
-	    DecimalFormat oneDecPointFormat = new DecimalFormat("0.00");
-	    
-		String output;
-		// Start with the TripID
-		output = "TripID: " + trip.getTripID() + "\r\n";
-		// Write the starting date
-		output += "Date: " + trip.getDateAtStart() + "\r\n";
-		// Write the time taken
-		output += "Time taken: " + sdf.format((trip.getEndTime() - trip.getStartTime() - trip.getTimePaused())) + "\r\n";
-		// Write distance
-		output += "Distance: " + decimalFormat.format(trip.getDistance()/1000) + " km" + "\r\n";
-		// Write average speed
-		output += "Average Speed: " + decimalFormat.format(trip.getAverageSpeed()*3.6) + " km/hr" + "\r\n";
-		// Write max speed
-		output += "Max Speed: " + decimalFormat.format(trip.getMaxSpeed()*3.6) + " km/hr" + "\r\n";
-		// Write average pace
-		output += "Average Pace: " + decimalFormat.format(trip.getAveragePace()) + " min/km" + "\r\n";
-		// Write max pace
-		output += "Max Pace: " + decimalFormat.format(trip.getMaxPace()) + " min/km" + "\r\n";
-		
-		// Write the GPS co-ords
-		output+= "\r\n*** GPS ***\r\n";
-		int size = trip.getGeoData().getPathTaken().size();
-		Location temp = null;
-		output += "Latitude\tLongitude\r\n";
-		for(int i = 0; i < size; i++)
+		if(saveDir != null)
 		{
-			temp = trip.getGeoData().getPathTaken().get(i);
-			output += temp.getLatitude() + ", ";
-			output += temp.getLongitude() + "\r\n";
-		}	
-		
-		return output;
+			writeToFile(saveDir);	
+		}
+		else
+		{
+			Log.e("STORAGE", "SD Card not available.");
+		}
 	}
 
-	private void writeToFile(File saveDir, String text) 
+	private void writeToFile(File saveDir) 
 	{
 		FileWriter textFile = null;
+		
 		try {
-			textFile = new FileWriter(saveDir.toString() + "/" + trip.getTripID() + ".txt");
+			textFile = new FileWriter(saveDir.toString() + "/" + trip.getTripID() + ".gpx");
 		} catch (IOException e) {
 			Log.e("STORAGE", "Failed to create the .txt file");
 			e.printStackTrace();
 			return;
 		}
-		try {
-			textFile.write(text);
-		} catch (IOException e) {
-			Log.e("STORAGE", "Failed to write text to .txt file");
-			e.printStackTrace();
-		}
+		
+		ExportGPX asGPX = new ExportGPX(context);
+		asGPX.prepare(trip, textFile);
+		asGPX.write();
+		
 		try {
 			textFile.close();
 		} catch (IOException e) {
@@ -140,7 +106,7 @@ public class SaveTrip
 	 * Determine if external storage is writable.
 	 * @return True if is writable, otherwise false.
 	 */
-	private boolean isStorageWritable()
+	public boolean isStorageWritable()
 	{
 		boolean mExternalStorageAvailable = false;
 		boolean mExternalStorageWriteable = false;

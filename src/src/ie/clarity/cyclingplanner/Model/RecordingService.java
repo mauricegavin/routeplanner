@@ -34,15 +34,13 @@ public class RecordingService extends Service implements LocationListener
 	public final static int STATE_FINISHED = 3;
 	public int state = STATE_IDLE;
 	
-	
 	// Acquire a reference to the system Location Manager
 	LocationManager locationManager = null;
 	
 	// May not be necessary to keep this, as we can communicate to the RecordingController
 	// via the bound ServiceConnection
 	private RecordingController recordCtrl;
-	private Context context;
-	private Timer timer = null;
+	private Trip trip;
 	
 	private final MyServiceBinder myServiceBinder = new MyServiceBinder();
 	
@@ -51,7 +49,7 @@ public class RecordingService extends Service implements LocationListener
 	//
 	
 	@Override
-	public IBinder onBind(Intent arg0) {
+	public IBinder onBind(Intent intent) {
 		return  myServiceBinder;
 	}
 
@@ -69,8 +67,8 @@ public class RecordingService extends Service implements LocationListener
 		public int getState() {
 			return state;
 		}
-		public void start(Context context) {
-			RecordingService.this.start(context);
+		public void start(Trip trip) {
+			RecordingService.this.start(trip);
 			Log.i("RS","Starting Recording Service");
 		}
 		public void cancel() {
@@ -94,9 +92,8 @@ public class RecordingService extends Service implements LocationListener
 		}
 	
 		@Override
-		public long getCurrentTrip() {
-			// TODO Auto-generated method stub
-			return 0;
+		public String getCurrentTrip() {
+			return trip.getTripID();
 		}
 		/** 
 		 * Add the parent Recording Controller as a Listener
@@ -104,7 +101,7 @@ public class RecordingService extends Service implements LocationListener
 		 */
 		@Override
 		public void setListener(RecordingController rc) {
-			recordCtrl = rc;
+			RecordingService.this.recordCtrl = rc;
 		}
 	}	
 	//
@@ -119,18 +116,13 @@ public class RecordingService extends Service implements LocationListener
 	/**
 	 * Begin recording the user's location
 	 */
-	public void start(Context context) {
-
-		this.context = context;
+	public void start(Trip trip) {
+		
+		this.trip = trip;
 		this.state = STATE_RECORDING;
-		// Acquire a reference to the system Location Manager
-		locationManager = (LocationManager)context.getSystemService(Context.LOCATION_SERVICE);
-		// Register the listener with the Location Manager to receive location updates
-		Log.i("GPS", "Configuring GPS Provider");
-		Log.i("GPS", "Providers: " + locationManager.getProviders(true));
-		// Request GPS location updates
-		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 0, this); // Request GPS fix every 2 seconds.
 
+		configureLocationManager();
+		
 	    // Add the notify bar and blinking light
 		setNotification();
 	}
@@ -141,7 +133,7 @@ public class RecordingService extends Service implements LocationListener
 	public void resume()
 	{
 		this.state = STATE_RECORDING;
-		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 0, this);
+		configureLocationManager();
 	}
 	
 	/**
@@ -151,7 +143,6 @@ public class RecordingService extends Service implements LocationListener
 	{
 		state = STATE_PAUSED;
 		locationManager.removeUpdates(this);
-		stopSelf();
 	}
 	
 	/**
@@ -174,6 +165,20 @@ public class RecordingService extends Service implements LocationListener
 		locationManager.removeUpdates(this);
 		clearNotifications();
 		stopSelf();
+	}
+	
+	/**
+	 * This function starts the locationManager
+	 */
+	private void configureLocationManager()
+	{
+		// Acquire a reference to the system Location Manager
+		locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+		// Register the listener with the Location Manager to receive location updates
+		Log.i("GPS", "Configuring GPS Provider");
+		Log.i("GPS", "Providers: " + locationManager.getProviders(true));
+		// Request GPS location updates
+		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 500, 0, this); // Request GPS fix every 500 milliseconds.
 	}
 	
 	//
@@ -211,7 +216,7 @@ public class RecordingService extends Service implements LocationListener
 
 	private void notifyObservers(Location location)
 	{
-		recordCtrl.update(location);
+		recordCtrl.update(location, trip);
 	}
 	
 	//
@@ -220,7 +225,7 @@ public class RecordingService extends Service implements LocationListener
 	// Notifications
 	
 	private void setNotification() {
-		NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+		NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 		int icon = R.drawable.logo;
 		CharSequence tickerText = "Recording...";
 		long when = System.currentTimeMillis();
@@ -236,9 +241,10 @@ public class RecordingService extends Service implements LocationListener
 				Notification.FLAG_INSISTENT |
 				Notification.FLAG_NO_CLEAR;
 
-		CharSequence contentTitle = "Route Planner - Recording";
+		CharSequence contentTitle = "Róthim - Recording";
 		CharSequence contentText = "Touch to return to the recording screen";
 		
+		Context context = this;
 		Intent notificationIntent = new Intent(context, MainActivity.class);
 		PendingIntent contentIntent = PendingIntent.getActivity(context, 0, notificationIntent, 0);
 		
@@ -250,7 +256,7 @@ public class RecordingService extends Service implements LocationListener
 
 	private void clearNotifications() 
 	{
-		NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+		NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 		mNotificationManager.cancelAll();
 
 		//if (timer!=null) {
@@ -258,6 +264,8 @@ public class RecordingService extends Service implements LocationListener
             //timer.purge();
 		//}
 	}
+	
+
 
 
 }

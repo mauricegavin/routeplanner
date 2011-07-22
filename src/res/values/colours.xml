@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
-    <color name="titleColour">#1A0202</color>
+    <color name="titleColour">#FFFFFF</color>
     <color name="menuItemColour">#1A0202</color>
-    <color name="defaultTextColour">#1A0202</color>
+    <color name="defaultTextColour">#FFFFFF</color>
     <color name="alternativeTextColour">#FFFFFF</color>
     <color name="backgroundColour">#1A0202</color>
+    <color name="todoColour">#0047D6</color>
 </resources>

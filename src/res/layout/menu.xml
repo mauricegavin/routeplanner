@@ -25,7 +25,7 @@
         android:scaleType="fitEnd" 
         android:layout_height="fill_parent" 
         android:id="@+id/imageView1" 
-        android:src="@drawable/splash" 
+        android:src="@drawable/logo" 
         android:layout_alignParentLeft="true">
         </ImageView>
         <ListView 
